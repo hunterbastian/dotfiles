@@ -1,15 +1,33 @@
 add_newline = false
 
 format = """
-$username$hostname$directory$git_branch$git_status$nodejs$python$rust$docker_context\
-$cmd_duration
+$os$username$hostname$directory$git_branch$git_status$package$nodejs$python$rust$docker_context$aws$gcloud$kubernetes$terraform\
+$jobs$cmd_duration
 $battery$time$character
 """
+
+[os]
+disabled = false
+style = "#575653"
+format = "[$symbol]($style) "
+
+[os.symbols]
+Macos = ""
 
 [directory]
 style = "bold #575653"
 truncation_length = 3
 read_only = " 󰌾"
+
+[directory.substitutions]
+"~" = "󰋜 ~"
+"Documents" = "󰈙 Documents"
+"Downloads" = "󰉍 Downloads"
+"Desktop" = "󰧨 Desktop"
+"Projects" = " Projects"
+"Developer" = " Developer"
+"Code" = " Code"
+".dotfiles" = " .dotfiles"
 
 [character]
 success_symbol = "[❯](#4385BE)"
@@ -40,6 +58,11 @@ untracked = "?"
 staged = "+"
 deleted = "✗"
 
+[package]
+symbol = "󰏗 "
+style = "#BC5215"
+format = "[$symbol$version]($style) "
+
 [nodejs]
 symbol = " "
 style = "#66800B"
@@ -58,6 +81,33 @@ style = "#AF3029"
 symbol = " "
 style = "#4385BE"
 only_with_files = true
+
+[aws]
+symbol = " "
+style = "#BC5215"
+format = "[$symbol($profile)(\\($region\\))]($style) "
+
+[gcloud]
+symbol = "󱇶 "
+style = "#4385BE"
+format = "[$symbol($project)]($style) "
+
+[kubernetes]
+disabled = false
+symbol = "󱃾 "
+style = "#66800B"
+format = "[$symbol$context(\\($namespace\\))]($style) "
+
+[terraform]
+symbol = "󱁢 "
+style = "#4385BE"
+format = "[$symbol$workspace]($style) "
+
+[jobs]
+symbol = "󰜎 "
+style = "#BC5215"
+format = "[$symbol$number]($style) "
+threshold = 1
 
 [cmd_duration]
 min_time = 2_000
