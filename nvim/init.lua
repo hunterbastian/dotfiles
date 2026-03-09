@@ -85,10 +85,8 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter").setup({
         ensure_installed = { "lua", "javascript", "typescript", "tsx", "json", "html", "css", "markdown", "bash" },
-        highlight = { enable = true },
-        indent = { enable = true },
       })
     end,
   },
@@ -102,9 +100,6 @@ require("lazy").setup({
     },
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "lua_ls", "html", "cssls", "jsonls" },
-      })
       local lspconfig = require("lspconfig")
       local on_attach = function(_, bufnr)
         local map = function(keys, func, desc)
@@ -116,16 +111,19 @@ require("lazy").setup({
         map("<leader>ca", vim.lsp.buf.code_action, "Code action")
         map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
       end
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          lspconfig[server_name].setup({ on_attach = on_attach })
-        end,
-        ["lua_ls"] = function()
-          lspconfig.lua_ls.setup({
-            on_attach = on_attach,
-            settings = { Lua = { diagnostics = { globals = { "vim" } } } },
-          })
-        end,
+      require("mason-lspconfig").setup({
+        ensure_installed = { "ts_ls", "lua_ls", "html", "cssls", "jsonls" },
+        handlers = {
+          function(server_name)
+            lspconfig[server_name].setup({ on_attach = on_attach })
+          end,
+          ["lua_ls"] = function()
+            lspconfig.lua_ls.setup({
+              on_attach = on_attach,
+              settings = { Lua = { diagnostics = { globals = { "vim" } } } },
+            })
+          end,
+        },
       })
     end,
   },
@@ -193,7 +191,7 @@ require("lazy").setup({
   },
 
   -- Comment toggle (gcc to comment a line)
-  { "numiras/Comment.nvim", opts = {} },
+  { "numToStr/Comment.nvim", opts = {} },
 })
 
 -- Theme
