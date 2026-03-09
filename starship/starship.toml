@@ -1,0 +1,48 @@
+add_newline = false
+
+format = """
+$directory$git_branch$git_status$nodejs$python$rust\
+$cmd_duration
+$character
+"""
+
+[directory]
+style = "bold #575653"
+truncation_length = 3
+
+[character]
+success_symbol = "❯"
+error_symbol = "[❯](red)"
+
+[git_branch]
+symbol = " "
+style = "#4385BE"
+
+[git_status]
+style = "#AF3029"
+ahead = "↑"
+behind = "↓"
+diverged = "⇡⇣"
+modified = "~"
+untracked = "?"
+staged = "+"
+deleted = "✗"
+
+[nodejs]
+symbol = " "
+style = "#66800B"
+detect_files = ["package.json"]
+
+[python]
+symbol = " "
+style = "#BC5215"
+detect_files = ["requirements.txt", "pyproject.toml"]
+
+[rust]
+symbol = " "
+style = "#AF3029"
+
+[cmd_duration]
+min_time = 2_000
+style = "#575653"
+format = " took [$duration]($style)"
