@@ -1,18 +1,30 @@
 add_newline = false
 
 format = """
-$directory$git_branch$git_status$nodejs$python$rust\
+$username$hostname$directory$git_branch$git_status$nodejs$python$rust$docker_context\
 $cmd_duration
-$character
+$battery$time$character
 """
 
 [directory]
 style = "bold #575653"
 truncation_length = 3
+read_only = " 󰌾"
 
 [character]
-success_symbol = "❯"
-error_symbol = "[❯](red)"
+success_symbol = "[❯](#4385BE)"
+error_symbol = "[❯](#AF3029)"
+
+[username]
+show_always = false
+style_user = "#575653"
+style_root = "bold #AF3029"
+format = "[$user]($style) "
+
+[hostname]
+ssh_only = true
+style = "#BC5215"
+format = "@ [$hostname]($style) "
 
 [git_branch]
 symbol = " "
@@ -42,7 +54,37 @@ detect_files = ["requirements.txt", "pyproject.toml"]
 symbol = " "
 style = "#AF3029"
 
+[docker_context]
+symbol = " "
+style = "#4385BE"
+only_with_files = true
+
 [cmd_duration]
 min_time = 2_000
 style = "#575653"
 format = " took [$duration]($style)"
+
+[battery]
+disabled = false
+format = "[$symbol$percentage]($style) "
+
+[[battery.display]]
+threshold = 30
+style = "#AF3029"
+discharging_symbol = "󰁺 "
+
+[[battery.display]]
+threshold = 60
+style = "#BC5215"
+discharging_symbol = "󰁾 "
+
+[[battery.display]]
+threshold = 100
+style = "#66800B"
+discharging_symbol = "󰁹 "
+
+[time]
+disabled = false
+style = "#575653"
+format = "[$time]($style) "
+time_format = "%H:%M"
